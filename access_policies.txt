@@ -1,0 +1,123 @@
+{
+  "access_policies": [
+    {
+      "resource": "string",                    // Required: Resource identifier
+      "resource_type": "string",               // Optional: cloudsql, looker, bigquery, etc.
+      "roles": [                               // Required: Array of roles
+        {
+          "name": "string",                    // Required: Role name
+          "display_name": "string",            // Optional: Human-readable name
+          "description": "string",             // Optional: Role description
+          "permissions": [                     // Required: Array of permissions
+            "string"                           // e.g., "SELECT", "INSERT", "UPDATE", "DELETE"
+          ],
+          "conditions": [                      // Optional: Access conditions
+            {
+              "department": "string",          // User department
+              "data_sensitivity": "string",    // low, medium, high, restricted
+              "location": "string",            // User location
+              "job_level": "string",           // junior, senior, manager, director
+              "contract_type": "string",       // full_time, contractor, intern
+              "security_clearance": "string",  // basic, secret, top_secret
+              "time_restrictions": {           // Optional: Time-based access
+                "start_time": "09:00",
+                "end_time": "17:00",
+                "timezone": "UTC",
+                "days_of_week": ["monday", "tuesday", "wednesday", "thursday", "friday"]
+              },
+              "ip_restrictions": [             // Optional: IP-based access
+                "192.168.1.0/24",
+                "10.0.0.0/8"
+              ],
+              "mfa_required": true,            // Optional: Require MFA
+              "justification_required": true   // Optional: Require business justification
+            }
+          ],
+          "inheritance": {                     // Optional: Role inheritance
+            "parent_roles": ["string"],        // Array of parent role names
+            "inherit_permissions": true        // Whether to inherit parent permissions
+          }
+        }
+      ],
+      "approval_workflow": {                   // Optional: Custom approval workflow
+        "approval_required": true,             // Required: Whether approval is needed
+        "approvers": [                         // Optional: Specific approvers
+          {
+            "type": "string",                  // "user", "role", "manager", "data_owner"
+            "value": "string",                 // User email, role name, etc.
+            "order": 1                         // Approval order (1 = first)
+          }
+        ],
+        "auto_approve_conditions": [           // Optional: Auto-approval rules
+          {
+            "department": "string",
+            "data_sensitivity": "string",
+            "request_duration": "string"       // e.g., "7d" for 7 days or less
+          }
+        ],
+        "escalation": {                        // Optional: Escalation rules
+          "timeout_hours": 24,
+          "escalate_to": "string"              // Email or role to escalate to
+        }
+      },
+      "access_duration": "string",             // Required: How long access lasts
+      "access_duration_options": [             // Optional: Predefined duration options
+        "1d", "7d", "30d", "90d", "1y"
+      ],
+      "renewal": {                             // Optional: Renewal settings
+        "auto_renew": false,                   // Whether to auto-renew
+        "renewal_notification_days": [7, 3, 1], // Days before expiry to notify
+        "max_renewals": 3,                     // Maximum number of renewals
+        "renewal_approval_required": true      // Whether renewal needs approval
+      },
+      "audit": {                               // Optional: Audit settings
+        "enabled": true,                       // Required: Whether auditing is enabled
+        "log_level": "string",                 // "basic", "detailed", "verbose"
+        "retention_days": 365,                 // How long to keep audit logs
+        "alerts": [                            // Optional: Audit alerts
+          {
+            "event_type": "string",            // "access_granted", "access_revoked", "policy_violation"
+            "severity": "string",              // "low", "medium", "high", "critical"
+            "notification_channels": ["string"] // "email", "slack", "pagerduty"
+          }
+        ]
+      },
+      "compliance": {                          // Optional: Compliance settings
+        "regulations": ["string"],             // e.g., ["GDPR", "SOX", "HIPAA"]
+        "data_classification": "string",       // "public", "internal", "confidential", "restricted"
+        "encryption_required": true,           // Whether data must be encrypted
+        "access_logging_required": true        // Whether access must be logged
+      },
+      "notifications": {                       // Optional: Notification settings
+        "access_granted": {                    // When access is granted
+          "enabled": true,
+          "recipients": ["string"],            // Email addresses
+          "template": "string"                 // Email template name
+        },
+        "access_revoked": {                    // When access is revoked
+          "enabled": true,
+          "recipients": ["string"],
+          "template": "string"
+        },
+        "access_expiring": {                   // When access is about to expire
+          "enabled": true,
+          "recipients": ["string"],
+          "template": "string"
+        }
+      },
+      "tags": ["string"],                      // Optional: Tags for organization
+      "description": "string",                 // Optional: Policy description
+      "enabled": true,                         // Optional: Whether policy is active
+      "created_by": "string",                  // Optional: Who created the policy
+      "created_at": "string",                  // Optional: Creation timestamp
+      "updated_by": "string",                  // Optional: Who last updated the policy
+      "updated_at": "string"                   // Optional: Last update timestamp
+    }
+  ],
+  "metadata": {                                // Optional: Global metadata
+    "version": "1.0",
+    "schema_version": "2024-01-01",
+    "organization": "string",
+    "contact": "string"
+  }
+}

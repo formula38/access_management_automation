@@ -1,0 +1,33 @@
+{
+    "resource": "multi-service:sales-data",
+    "services": {
+      "cloudsql": {
+        "instance": "sales-db-instance",
+        "database": "sales_db",
+        "gcp_iam_bindings": [
+          {
+            "role": "roles/cloudsql.client",
+            "members": ["user:alice@company.com"]
+          }
+        ]
+      },
+      "looker_studio": {
+        "dashboard_id": "sales-dashboard-123",
+        "gcp_iam_bindings": [
+          {
+            "role": "roles/datastudio.user",
+            "members": ["user:alice@company.com"]
+          }
+        ]
+      }
+    },
+    "unified_workflow": {
+      "approval_required": true,
+      "approvers": ["data-owner@company.com"],
+      "access_duration": "30d",
+      "audit": {
+        "enabled": true,
+        "log_level": "detailed"
+      }
+    }
+  }
